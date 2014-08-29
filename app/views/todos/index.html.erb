@@ -1,0 +1,146 @@
+
+<p>
+	<!-- <li><%= @todo_items %></li> -->
+
+
+	<div class="container">
+		<div class="row">
+			<div class="span4">
+	
+				<h1>Shared Todo App</h1>
+				<hr>
+				<p>all Your todo list here</p>
+
+				<!-- 
+				<%= form_tag("/todos/add", :method=>"post") do %>
+					<%= text_field_tag(:todo_text) %>
+					<%= submit_tag("Add todo", :class=>"btn") %>
+
+				<% end %> 
+				-->
+
+
+				<%= form_for @new_todo, :url => {:action => "add"} do |f| %>
+				<%= f.text_field :todo_item %>
+				<%= f.submit "add todo" , class: "btn btn-primary" %>
+				<% end %>
+
+
+
+				<%  if !flash[:error].nil? %>
+					<div class="alert alert-error">
+						<button class="close" data-dismiss="alert">*</button>
+						<strong><%= flash[:error] %></strong>
+					</div>
+				<% end %>
+
+				<%  if flash[:success] %>
+					<div class="alert alert-success">
+						<button class="close" data-dismiss="alert">*</button>
+						<strong><%= flash[:success] %></strong>
+					</div>
+				<% end %>
+
+
+
+
+
+
+
+				<div class="well">
+
+				
+				<!-- 	<% @todo_items.each do |t|  %>
+					 
+					<li> <%= t.todo_item %>  </li>
+					
+					<% end %> -->
+
+					
+
+
+					<%= form_tag("/todos/complete", :method => "post") do %>
+
+						<ul style="list-style-type:none;">
+							<% @todo_items.each do |t| %>
+								<!-- <li>
+									<%=  check_box_tag "todos_checkbox[]",t.id %>
+									<%= t.todo_item %>
+
+								</li> -->
+
+
+								<% if t.completed == true %>
+									<li style="color:grey;">
+										<%= check_box_tag "todos_checkbox[]",t.id %> 
+										<strike>
+										<%= t.todo_item %>
+										</strike>
+									</li>
+
+
+
+
+<!-- In HTML, the checkboxes have the same 'name' attribute. <%= check_box_tag "todos_checkbox[]",t.id %> says that every checkbox gets the same name 'todos_checkbox[]'. The value each checkbox holds is t.id which is the id of the respective todo.  -->
+
+<!-- 
+In controller, Rails combines the values of the selected checkboxes in an array. For example - if two checkboxes with values 1 and 2 are checked respectively, params[:todos_checkbox] will look like [1, 2]. -->
+
+
+
+
+
+
+
+
+
+
+									
+									<% else %>
+										<li> <%= check_box_tag "todos_checkbox[]", t.id %>
+											 <%= t.todo_item %>
+										</li>
+									<% end %>
+
+
+
+
+							<% end %>
+						</ul>
+
+						<%= submit_tag("complete Todos" , :class => "btn btn-success") %>
+
+					<% end %>
+
+
+
+
+
+
+
+
+
+
+				</div>
+	
+		<!-- well -->
+
+
+
+</ul></p>
+
+
+
+		</div>
+		<!-- span4 -->
+
+	</div>
+	<!-- row -->
+
+</div>  
+<!-- container -->
+
+
+<!-- <p><a href="/todos/delete">Delete Last Row</a></p> -->
+
+<%= link_to "delete last todo" , delete_path %>
